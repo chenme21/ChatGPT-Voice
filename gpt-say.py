@@ -5,13 +5,10 @@ from azure.cognitiveservices.speech import SpeechConfig, SpeechSynthesizer, Spee
 from pydub import AudioSegment
 from pydub.playback import play
 
-#key
-openai.api_key = os.getenv("OPEN_AI_KEY")
-azure_key = os.getenv("AZURE_KEY")
-
-
+openai.api_key = os.getenv("OPENAI_API_KEY")
 
 def makemp3(text: str):
+    azure_key = os.getenv("AZURE_KEY")
     print("Start creating Voice mp3")
     speech_config = SpeechConfig(
         subscription=azure_key, region="eastus")
@@ -26,6 +23,7 @@ def makemp3(text: str):
     print("End of create")
 
 
+
 def gpt(content: str):
     completion = openai.ChatCompletion.create(
         model="gpt-3.5-turbo",
@@ -37,7 +35,6 @@ def gpt(content: str):
     data = completion['choices'][0]['message']['content']
     out = ("GPT說: ", data)
     reply = ("".join('%s' % id for id in out))
-    print(reply)
     makemp3(reply)
 
 
@@ -46,3 +43,4 @@ while (True):
     gpt(say)
     voice = AudioSegment.from_file("gpt-out.mp3")
     play(voice)
+    os.remove("gpt-out.mp3")
