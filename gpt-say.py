@@ -37,8 +37,11 @@ def gpt(content: str):
     reply = ("".join('%s' % id for id in out))
     makemp3(reply)
 
+print("ChatGPT轉語音，若要退出請直接輸入exit")
 while (True):
     say = input("你的問題？:")
+    if(say=="exit"):
+        break
     gpt(say)
     voice = AudioSegment.from_file("gpt-out.mp3")
     play(voice)
