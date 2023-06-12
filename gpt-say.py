@@ -37,7 +37,6 @@ def gpt(content: str):
     reply = ("".join('%s' % id for id in out))
     makemp3(reply)
 
-
 while (True):
     say = input("你的問題？:")
     gpt(say)
